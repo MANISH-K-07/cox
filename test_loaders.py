@@ -1,69 +1,52 @@
 from pathlib import Path
 
-from app.ingestion.loaders import load_file
-from app.ingestion.json_loaders import load_slack_messages, load_emails
-
-
-DATA_DIR = Path("sample_data")
+from app.ingestion.collection_loader import load_all_documents
 
 
 def main():
-    # Load Slack messages
-    slack_documents = load_slack_messages(
-        DATA_DIR / "slack_messages.json"
-    )
+    data_dir = Path("sample_data")
 
-    # Load emails
-    email_documents = load_emails(
-        DATA_DIR / "emails.json"
-    )
-
-    # Load meeting transcripts
-    meeting_1 = load_file(
-        DATA_DIR / "meeting_2026-10-29.txt"
-    )
-
-    meeting_2 = load_file(
-        DATA_DIR / "meeting_2026-11-02.txt"
-    )
-
-    # Load PDF
-    pdf_text = load_file(
-        DATA_DIR / "project_orion_brief.pdf"
-    )
-
-    # Load Word document
-    docx_text = load_file(
-        DATA_DIR / "northstar_supplier_update.docx"
-    )
+    documents = load_all_documents(data_dir)
 
     print("=" * 60)
-    print("CO-X DATA LOADER TEST")
+    print("CO-X UNIFIED INGESTION TEST")
     print("=" * 60)
 
-    print(f"\nSlack messages loaded: {len(slack_documents)}")
-    print(f"Emails loaded: {len(email_documents)}")
+    print(f"\nTotal documents loaded: {len(documents)}")
 
-    print("\n--- First Slack message ---")
-    print(slack_documents[0].model_dump_json(indent=2))
+    # Count documents by source
+    source_counts = {}
 
-    print("\n--- First email ---")
-    print(email_documents[0].model_dump_json(indent=2))
+    for document in documents:
+        source_counts[document.source] = (
+            source_counts.get(document.source, 0) + 1
+        )
 
-    print("\n--- Meeting transcript 1 ---")
-    print(meeting_1[:500])
+    print("\nDocuments by source:")
 
-    print("\n--- Meeting transcript 2 ---")
-    print(meeting_2[:500])
+    for source, count in source_counts.items():
+        print(f"  {source}: {count}")
 
-    print("\n--- PDF ---")
-    print(pdf_text[:500])
+    print("\n--- First document ---")
 
-    print("\n--- DOCX ---")
-    print(docx_text[:500])
+    print(documents[0].model_dump_json(indent=2))
+
+    print("\n--- Last document ---")
+
+    print(documents[-1].model_dump_json(indent=2))
+
+    print("\n--- All document IDs ---")
+
+    for document in documents:
+        print(f"{document.id} | {document.source_type}")
 
     print("\n" + "=" * 60)
-    print("ALL FILES LOADED SUCCESSFULLY")
+
+    if len(documents) == 15:
+        print("SUCCESS: All 15 documents are unified!")
+    else:
+        print(f"WARNING: Expected 15 documents, got {len(documents)}")
+
     print("=" * 60)
 
 
