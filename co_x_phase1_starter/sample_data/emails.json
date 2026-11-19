@@ -1,0 +1,44 @@
+[
+  {
+    "id": "email-001",
+    "from": "leo.martinez@example.test",
+    "to": [
+      "maya.chen@example.test"
+    ],
+    "subject": "Orion display controller - revised estimate",
+    "timestamp": "2026-10-28T16:10:00-04:00",
+    "body": "Northstar has advised verbally that the display controller shipment may be delayed. They have not yet provided a firm date. I will request written confirmation. The current pilot target remains January 18."
+  },
+  {
+    "id": "email-002",
+    "from": "supplier.contact@example.test",
+    "to": [
+      "leo.martinez@example.test",
+      "maya.chen@example.test"
+    ],
+    "subject": "Written update: Orion controller shipment",
+    "timestamp": "2026-11-02T08:20:00-05:00",
+    "body": "We currently expect the Orion display controller shipment to leave our facility on December 16, 2026. This is an estimate and not a guaranteed delivery date. We are checking whether a partial shipment can be arranged and will confirm by November 5."
+  },
+  {
+    "id": "email-003",
+    "from": "priya.nair@example.test",
+    "to": [
+      "maya.chen@example.test",
+      "leo.martinez@example.test"
+    ],
+    "subject": "Impact assessment needed for Orion pilot",
+    "timestamp": "2026-11-02T15:05:00-05:00",
+    "body": "If the full controller shipment arrives after December 16, the integration team estimates it may need five business days for installation and validation before system testing. We should compare the normal shipment plan with a partial-shipment option. I do not recommend changing the pilot date until the test lead confirms capacity."
+  },
+  {
+    "id": "email-004",
+    "from": "maya.chen@example.test",
+    "to": [
+      "orion-team@example.test"
+    ],
+    "subject": "Orion review - agenda and decision status",
+    "timestamp": "2026-11-03T07:45:00-05:00",
+    "body": "For today's review, please assess the January 18 pilot target against the latest supplier estimate, test capacity, and partial shipment option. No revised pilot date has been approved. We need an owner and due date for each follow-up."
+  }
+]

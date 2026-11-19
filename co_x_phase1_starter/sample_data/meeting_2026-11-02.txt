@@ -1,0 +1,21 @@
+Meeting: Project Orion Supplier and Schedule Check-in
+Date: November 2, 2026
+Attendees: Maya Chen (Program Lead), Leo Martinez (Supplier Manager), Priya Nair (Integration Lead)
+
+Leo: Northstar sent a written estimate this morning. They currently expect the controller shipment to leave their facility on December 16. It is not guaranteed.
+Maya: Did they confirm partial shipment?
+Leo: Not yet. They said they will confirm by November 5.
+Priya: With a December 16 shipment, the integration team estimates five business days for installation and validation before system testing. We need to check the test team's capacity.
+Maya: Does that mean we need to move the January 18 pilot?
+Priya: Not necessarily. I need to check the detailed test plan and whether partial shipment changes the sequence.
+Maya: Then we do not have enough information to change the date. Keep January 18 as the working target, but flag it as at risk.
+Leo: I will follow up with Northstar by November 5.
+Priya: I will provide a test-capacity impact assessment by November 6.
+Maya: I will own the pilot-date decision after those two inputs are available.
+
+Meeting outcome:
+- January 18 remains the working target, but is at risk.
+- No revised pilot date has been approved.
+- Leo owns confirmation of partial shipment by November 5.
+- Priya owns the test-capacity assessment by November 6.
+- Maya owns the final pilot-date decision after receiving both inputs.
