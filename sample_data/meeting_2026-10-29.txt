@@ -1,0 +1,16 @@
+Meeting: Project Orion Weekly Review
+Date: October 29, 2026
+Attendees: Maya Chen (Program Lead), Leo Martinez (Supplier Manager), Priya Nair (Integration Lead)
+
+Maya: The working target for the infotainment pilot is January 18. Is anything putting that at risk?
+Leo: Northstar has told me the display controller shipment may be late, but I do not have a written date.
+Priya: If it arrives after December 12, integration testing could lose about a week. That is a risk estimate, not a confirmed impact.
+Maya: We should not change the target based on an informal update. Leo, get written confirmation from Northstar.
+Leo: I will request it and ask whether a partial shipment is possible.
+Maya: Good. We will revisit the schedule when we have the written supplier update and Priya's capacity assessment.
+
+Meeting outcome:
+- January 18 remains the working pilot target.
+- No decision was made to postpone the pilot.
+- Leo will obtain written supplier confirmation and ask about partial shipment.
+- Priya will assess the testing impact once the supplier provides a date.

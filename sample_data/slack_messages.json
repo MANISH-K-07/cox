@@ -1,0 +1,58 @@
+[
+  {
+    "id": "slack-001",
+    "channel": "project-orion",
+    "author": "Maya Chen",
+    "timestamp": "2026-10-27T09:12:00-04:00",
+    "text": "The current target for the Orion infotainment pilot is January 18. Please use that date in planning for now.",
+    "thread_id": "thread-01"
+  },
+  {
+    "id": "slack-002",
+    "channel": "project-orion",
+    "author": "Leo Martinez",
+    "timestamp": "2026-10-28T14:05:00-04:00",
+    "text": "Supplier Northstar says the revised display controller shipment may arrive later than planned. I am waiting for a written confirmation.",
+    "thread_id": "thread-02"
+  },
+  {
+    "id": "slack-003",
+    "channel": "project-orion",
+    "author": "Priya Nair",
+    "timestamp": "2026-10-29T10:20:00-04:00",
+    "text": "If the controller slips past December 12, integration testing could lose a full week. This is a risk, not a confirmed schedule change.",
+    "thread_id": "thread-03"
+  },
+  {
+    "id": "slack-004",
+    "channel": "project-orion",
+    "author": "Maya Chen",
+    "timestamp": "2026-10-30T11:40:00-04:00",
+    "text": "Let's not announce a new pilot date until we review the supplier's written update and the test team's capacity.",
+    "thread_id": "thread-04"
+  },
+  {
+    "id": "slack-005",
+    "channel": "project-orion",
+    "author": "Leo Martinez",
+    "timestamp": "2026-11-02T08:55:00-05:00",
+    "text": "Northstar's email says shipment is now expected December 16. I have asked them whether partial shipment is possible.",
+    "thread_id": "thread-05"
+  },
+  {
+    "id": "slack-006",
+    "channel": "project-orion",
+    "author": "Priya Nair",
+    "timestamp": "2026-11-02T13:15:00-05:00",
+    "text": "We should model both the December 16 arrival and a one-week slip. No one has approved moving the January 18 pilot yet.",
+    "thread_id": "thread-06"
+  },
+  {
+    "id": "slack-007",
+    "channel": "leadership-updates",
+    "author": "Maya Chen",
+    "timestamp": "2026-11-03T08:30:00-05:00",
+    "text": "For today's review, please bring the supplier confirmation, test schedule impact, and options. The decision is still open.",
+    "thread_id": "thread-07"
+  }
+]
