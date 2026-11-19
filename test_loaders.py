@@ -4,66 +4,93 @@ from app.ingestion.collection_loader import load_all_documents
 from app.processing.chunking import chunk_documents
 from app.processing.deduplication import detect_duplicates
 
+from app.retrieval.embeddings import generate_embeddings
+from app.retrieval.vector_store import save_documents, get_collection
+
 
 def main():
 
-    data_dir = Path("sample_data")
+    print("=" * 60)
+    print("CO-X VECTOR DATABASE TEST")
+    print("=" * 60)
 
-    # 1. Load documents
-    documents = load_all_documents(data_dir)
+    # 1. Load
+    documents = load_all_documents(
+        Path("sample_data")
+    )
 
-    print(f"Original documents: {len(documents)}")
+    print(f"\nLoaded documents: {len(documents)}")
 
-    # 2. Chunk documents
+    # 2. Chunk
     chunks = chunk_documents(documents)
 
-    print(f"Total chunks: {len(chunks)}")
+    print(f"Chunks created: {len(chunks)}")
 
-    # 3. Detect duplicates
+    # 3. Deduplicate
     chunks = detect_duplicates(chunks)
 
-    duplicates = [
-        chunk for chunk in chunks
-        if chunk.metadata["is_duplicate"]
-    ]
-
     unique_chunks = [
-        chunk for chunk in chunks
+        chunk
+        for chunk in chunks
         if not chunk.metadata["is_duplicate"]
     ]
 
-    print("\n" + "=" * 60)
-    print("DEDUPLICATION RESULTS")
-    print("=" * 60)
-
-    print(f"Total chunks: {len(chunks)}")
     print(f"Unique chunks: {len(unique_chunks)}")
-    print(f"Duplicates detected: {len(duplicates)}")
 
-    if duplicates:
+    # 4. Generate embeddings
+    print("\nGenerating embeddings...")
 
-        print("\nDuplicate details:")
+    texts = [
+        chunk.text
+        for chunk in unique_chunks
+    ]
 
-        for duplicate in duplicates:
+    embeddings = generate_embeddings(texts)
 
-            print(f"\nDuplicate ID: {duplicate.id}")
+    print(f"Embeddings generated: {len(embeddings)}")
 
-            print(
-                "Original ID:",
-                duplicate.metadata["duplicate_of"]
-            )
+    if embeddings:
+        print(
+            "Dimensions of first embedding:",
+            len(embeddings[0])
+        )
 
-            print(
-                "Text:",
-                duplicate.text[:150]
-            )
+    # 5. Save to ChromaDB
+    print("\nSaving to ChromaDB...")
 
-    else:
+    total_saved = save_documents(
+        unique_chunks,
+        embeddings,
+    )
 
-        print("\nNo exact duplicates found in the sample dataset.")
+    print(f"Documents in database: {total_saved}")
+
+    # 6. Verify
+    collection = get_collection()
+
+    print("\nChecking stored data...")
+
+    stored_data = collection.get(
+        limit=3,
+        include=["documents", "metadatas"],
+    )
+
+    for index, document_id in enumerate(stored_data["ids"]):
+
+        print(f"\nID: {document_id}")
+
+        print(
+            "Text:",
+            stored_data["documents"][index][:150]
+        )
+
+        print(
+            "Source:",
+            stored_data["metadatas"][index]["source"]
+        )
 
     print("\n" + "=" * 60)
-    print("DEDUPLICATION TEST COMPLETED")
+    print("VECTOR DATABASE TEST COMPLETED")
     print("=" * 60)
 
 
