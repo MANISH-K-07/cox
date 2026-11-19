@@ -1,4 +1,7 @@
 from fastapi import FastAPI
+# check 2
+from pydantic import BaseModel
+from app.synthesis.llm import ask_llm, get_model
 
 app = FastAPI(
     title="Co-X API",
@@ -20,4 +23,18 @@ def home():
 def health_check():
     return {
         "status": "healthy"
+    }
+
+# check 2
+class AITestRequest(BaseModel):
+    prompt: str
+
+
+@app.post("/ai/test")
+def test_ai(request: AITestRequest):
+    answer = ask_llm(request.prompt)
+
+    return {
+        "model": get_model(),
+        "answer": answer
     }
