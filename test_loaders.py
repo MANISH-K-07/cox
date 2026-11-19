@@ -1,55 +1,42 @@
 from pathlib import Path
 
 from app.ingestion.collection_loader import load_all_documents
+from app.processing.chunking import chunk_documents
 
 
 def main():
+
     data_dir = Path("sample_data")
 
+    # Load original documents
     documents = load_all_documents(data_dir)
 
-    print("=" * 60)
-    print("CO-X UNIFIED INGESTION TEST")
-    print("=" * 60)
+    print(f"Original documents: {len(documents)}")
 
-    print(f"\nTotal documents loaded: {len(documents)}")
+    # Chunk documents
+    chunks = chunk_documents(documents)
 
-    # Count documents by source
-    source_counts = {}
-
-    for document in documents:
-        source_counts[document.source] = (
-            source_counts.get(document.source, 0) + 1
-        )
-
-    print("\nDocuments by source:")
-
-    for source, count in source_counts.items():
-        print(f"  {source}: {count}")
-
-    print("\n--- First document ---")
-
-    print(documents[0].model_dump_json(indent=2))
-
-    print("\n--- Last document ---")
-
-    print(documents[-1].model_dump_json(indent=2))
-
-    print("\n--- All document IDs ---")
-
-    for document in documents:
-        print(f"{document.id} | {document.source_type}")
+    print(f"Total chunks: {len(chunks)}")
 
     print("\n" + "=" * 60)
-
-    if len(documents) == 15:
-        print("SUCCESS: All 15 documents are unified!")
-    else:
-        print(f"WARNING: Expected 15 documents, got {len(documents)}")
-
+    print("CHUNK BREAKDOWN")
     print("=" * 60)
+
+    for chunk in chunks:
+
+        print(f"\nID: {chunk.id}")
+        print(f"Source: {chunk.source}")
+        print(f"Chunk: {chunk.metadata['chunk_index'] + 1} "
+              f"of {chunk.metadata['total_chunks']}")
+        print(f"Characters: {len(chunk.text)}")
+
+        print("\nText preview:")
+        print(chunk.text[:250])
+
+        print("-" * 60)
+
+    print("\nCHUNKING TEST COMPLETED")
 
 
 if __name__ == "__main__":
     main()
-    
