@@ -1,3 +1,6 @@
+# most useful documents are now appearing at the top,
+# even though neither search method alone ranked everything perfectly.
+
 from pathlib import Path
 
 from app.ingestion.collection_loader import load_all_documents

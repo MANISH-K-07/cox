@@ -28,7 +28,7 @@ def hybrid_search(
     # each search engine votes for its best results,
     # and we combine those votes.
 
-    # RRF constant
+    # RRF (Reciprocal Rank Fusion) constant
     k = 60
 
     # Add semantic rankings
