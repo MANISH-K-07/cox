@@ -1,3 +1,8 @@
+# model correctly identified the people, 
+# their roles, the supplier risk, 
+# the conditional testing impact, 
+# and the action owners.
+
 from pathlib import Path
 
 from app.ingestion.collection_loader import load_all_documents
@@ -24,7 +29,8 @@ def main():
     # Select one chunk for our first AI extraction test
     test_chunk = next(
         chunk for chunk in chunks
-        if "Northstar" in chunk.text
+        if "Maya:" in chunk.text
+        and "Northstar" in chunk.text
         and "January 18" in chunk.text
     )
 
