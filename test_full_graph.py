@@ -9,7 +9,12 @@ from app.graph.graph_builder import build_graph
 
 from app.graph.entity_resolution import resolve_extractions
 
-from app.graph.storage import save_extraction, save_graph, load_graph
+from app.graph.storage import (
+    save_extraction,
+    load_extraction,
+    save_graph,
+    load_graph,
+)
 
 
 def main():
@@ -38,6 +43,9 @@ def main():
     # 4. Extract entities and relationships from each chunk
     extractions = []
 
+    cached_count = 0
+    newly_processed_count = 0
+
     for index, chunk in enumerate(unique_chunks, start=1):
         print("\n" + "-" * 60)
         print(f"Processing chunk {index}/{len(unique_chunks)}")
@@ -45,11 +53,24 @@ def main():
         print(f"Chunk ID: {chunk.id}")
 
         try:
-            extraction = extract_graph_from_chunk(chunk)
-            extractions.append(extraction)
+            # First, check whether this chunk was processed before
+            extraction = load_extraction(chunk.id)
 
-            # Save this chunk's extraction immediately
-            save_extraction(extraction, chunk.id)
+            if extraction is not None:
+                print("Using cached extraction.")
+                cached_count += 1
+
+            else:
+                print("No cached extraction found. Calling LLM...")
+
+                extraction = extract_graph_from_chunk(chunk)
+
+                # Save the extraction for future runs
+                save_extraction(extraction, chunk.id)
+
+                newly_processed_count += 1
+
+            extractions.append(extraction)
 
             print(f"Entities extracted: {len(extraction.entities)}")
             print(
@@ -59,6 +80,10 @@ def main():
 
         except Exception as error:
             print(f"ERROR processing this chunk: {error}")
+
+    print("\nEXTRACTION CACHE RESULTS")
+    print(f"Loaded from cache: {cached_count}")
+    print(f"Newly processed: {newly_processed_count}")
 
     # 5. Resolve duplicate entities
     resolved_extractions = resolve_extractions(extractions)
