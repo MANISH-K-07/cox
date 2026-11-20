@@ -1,7 +1,11 @@
+
 from fastapi import FastAPI
-# check 2
 from pydantic import BaseModel
+
 from app.synthesis.llm import ask_llm, get_model
+from app.retrieval.graph_enhanced_search import graph_enhanced_search
+from app.synthesis.answer_generator import generate_answer
+
 
 app = FastAPI(
     title="Co-X API",
@@ -25,7 +29,7 @@ def health_check():
         "status": "healthy"
     }
 
-# check 2
+
 class AITestRequest(BaseModel):
     prompt: str
 
@@ -38,3 +42,19 @@ def test_ai(request: AITestRequest):
         "model": get_model(),
         "answer": answer
     }
+
+
+class BriefRequest(BaseModel):
+    question: str
+
+
+@app.post("/briefs/generate")
+def generate_brief(request: BriefRequest):
+    retrieved_chunks = graph_enhanced_search(request.question)
+
+    result = generate_answer(
+        question=request.question,
+        retrieved_chunks=retrieved_chunks
+    )
+
+    return result
