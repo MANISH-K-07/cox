@@ -9,6 +9,8 @@ from app.graph.graph_builder import build_graph
 
 from app.graph.entity_resolution import resolve_extractions
 
+from app.graph.storage import save_extraction, save_graph, load_graph
+
 
 def main():
     print("=" * 60)
@@ -46,6 +48,9 @@ def main():
             extraction = extract_graph_from_chunk(chunk)
             extractions.append(extraction)
 
+            # Save this chunk's extraction immediately
+            save_extraction(extraction, chunk.id)
+
             print(f"Entities extracted: {len(extraction.entities)}")
             print(
                 "Relationships extracted: "
@@ -77,6 +82,24 @@ def main():
 
     # 6. Build the consolidated graph
     graph = build_graph(resolved_extractions)
+
+
+    # Save the consolidated graph
+    save_graph(graph)
+
+    # Load it again to verify persistence
+    loaded_graph = load_graph()
+
+    print("\nGRAPH STORAGE VERIFICATION")
+    print(f"Original nodes: {graph.number_of_nodes()}")
+    print(f"Loaded nodes: {loaded_graph.number_of_nodes()}")
+    print(f"Original edges: {graph.number_of_edges()}")
+    print(f"Loaded edges: {loaded_graph.number_of_edges()}")
+
+    assert graph.number_of_nodes() == loaded_graph.number_of_nodes()
+    assert graph.number_of_edges() == loaded_graph.number_of_edges()
+
+    print("Graph saved and loaded successfully!")
 
 
     # 7. Display graph statistics
