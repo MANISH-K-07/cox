@@ -6,6 +6,8 @@ from app.synthesis.llm import ask_llm, get_model
 from app.retrieval.graph_enhanced_search import graph_enhanced_search
 from app.synthesis.answer_generator import generate_answer
 
+from app.ingestion.pipeline import initialize_sample_data
+
 
 app = FastAPI(
     title="Co-X API",
@@ -57,4 +59,10 @@ def generate_brief(request: BriefRequest):
         retrieved_chunks=retrieved_chunks
     )
 
+    return result
+
+
+@app.post("/ingest/sample-data")
+def ingest_sample_data():
+    result = initialize_sample_data()
     return result
