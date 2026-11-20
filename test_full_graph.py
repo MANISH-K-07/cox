@@ -7,6 +7,8 @@ from app.processing.deduplication import detect_duplicates
 from app.graph.extractor import extract_graph_from_chunk
 from app.graph.graph_builder import build_graph
 
+from app.graph.entity_resolution import resolve_extractions
+
 
 def main():
     print("=" * 60)
@@ -53,10 +55,31 @@ def main():
         except Exception as error:
             print(f"ERROR processing this chunk: {error}")
 
-    # 5. Build the complete graph
-    graph = build_graph(extractions)
+    # 5. Resolve duplicate entities
+    resolved_extractions = resolve_extractions(extractions)
 
-    # 6. Display graph statistics
+    print("\nEntity resolution completed.")
+
+    # Count entities before and after resolution
+    before_count = sum(
+        len(extraction.entities)
+        for extraction in extractions
+    )
+
+    after_count = len({
+        entity.name
+        for extraction in resolved_extractions
+        for entity in extraction.entities
+    })
+
+    print(f"Entity mentions before resolution: {before_count}")
+    print(f"Unique entity names after resolution: {after_count}")
+
+    # 6. Build the consolidated graph
+    graph = build_graph(resolved_extractions)
+
+
+    # 7. Display graph statistics
     print("\n" + "=" * 60)
     print("KNOWLEDGE GRAPH RESULTS")
     print("=" * 60)
